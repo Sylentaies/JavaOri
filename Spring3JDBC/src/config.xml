@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p = "http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/cache
+		http://www.springframework.org/schema/cache/spring-cache.xsd"> 
+	<cache:annotation-driven />
+		
+	<!-- Define DataSouce-->
+	<bean id = "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@Shi-U430:1521:XE</value>
+		</property>
+		<property name="username" value = "javauser"/>
+		<property name="password" value = "asdf"/>
+	</bean>	
+	<bean id = "dataSource2" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@Shi-U430:1521:XE</value>
+		</property>
+		<property name="username" value = "javauser"/>
+		<property name="password" value = "asdf"/>
+	</bean>	
+	
+	
+	<bean class = "org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	
+	<!-- Define Daos -->
+	<bean id = "hdb01" class = "com.mercury.daos.HelloDaoBean01">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+	<bean id = "hdb02" class = "com.mercury.daos.HelloDaoBean02">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+	<bean id = "hdb03" class = "com.mercury.daos.HelloDaoBean03">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+	<bean id = "hdb04" class = "com.mercury.daos.HelloDaoBean04"/>
+	
+	<bean id = "hdb05" class = "com.mercury.daos.HelloDaoBean05">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+	
+	<bean id = "cacheManager" class="org.springframework.cache.support.SimpleCacheManager" >
+		<property name="caches">
+			<set>
+				<bean class="org.springframework.cache.concurrent.ConcurrentCacheFactoryBean" p:name = "default"/>
+				<bean class="org.springframework.cache.concurrent.ConcurrentCacheFactoryBean" p:name = "users"/>
+			</set>
+		</property>
+	
+	
+	</bean>
+	
+</beans> 

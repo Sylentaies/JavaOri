@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"> 
+	<!-- Config POJO -->
+	<bean id = "timeBook" class = "com.mercury.beans.TimeBook"/>
+	<!-- Config Advice -->
+	<bean id = "logAdvice" class = "com.mercury.aspect.LogAdvice"/>
+	
+	<!-- AOP Config -->
+	<aop:config>
+		<aop:aspect id = "logAspect" ref = "logAdvice">
+			<aop:before method = "start"
+				pointcut = "execution(* com.mercury.beans.TimeBook.doAudit(String)) and args(name)"/>
+			<aop:after-returning method= "end"
+				pointcut = "execution(* com.mercury.beans.TimeBook.doBreak(String)) and args(name)"/>
+			<aop:after-throwing method="end"
+				pointcut = "execution(* com.mercury.beans.TimeBook.doCheck(String)) and args(name)"/>
+			<aop:after method="delete"
+				pointcut = "execution(* com.mercury.beans.TimeBook.doDelete(int))"/>
+			<aop:around method="around"
+				pointcut = "execution(* com.mercury.beans.TimeBook.doAudit(String)) and args(name)"/>
+		</aop:aspect>
+	
+	</aop:config>
+	
+	
+	
+	
+</beans>
+		

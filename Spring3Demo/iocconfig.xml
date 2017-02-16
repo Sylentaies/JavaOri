@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+	
+	<!-- Simple Setter Injection -->
+	<bean id="user" class = "com.mercury.beans.User" scope = "prototype">
+		<property name="name" value = "Mary"/>
+		<property name="age"  value = "70"/>
+	</bean>
+	
+	<!-- Constructor Injection -->
+	<bean id = "person" class = "com.mercury.beans.Person">
+		<constructor-arg index = "0" value = "Bruce"/>
+		<constructor-arg index = "1" value = "Lee"/>
+		<constructor-arg index = "2" value = "30"/>
+	</bean>
+	<!-- Injection for Complex Bean -->
+	<bean id="wp" class = "com.mercury.beans.Wrapper">
+		<property name="user" ref="user"/>
+		<property name="p" ref= "person"/>
+	</bean>
+	<bean id ="wp2" class = "com.mercury.beans.Wrapper" autowire = "byName"/>
+	<!-- Injection for Subclass -->
+	<bean 	id = "localUser" class = "com.mercury.beans.LocalUser" parent = "user">
+		<property name = "location" value = "Princeton"/>
+	</bean>
+	<bean id = "mc" class = "com.mercury.beans.MultiCollection">
+	<property name = "list">
+		<list>
+			<value>Item1</value>
+			<value>Item2</value>
+		</list>
+	</property>
+	<property name="set">
+		<set>
+			<value>100</value>
+			<value>200</value>
+		</set>
+	</property>
+	<property name = "map">
+		<map>
+			<entry key="key1" value= "100"/>
+			<entry key="key2" value= "200"/>
+		</map>
+	</property>
+	<property name = "properties">
+		<props>
+			<prop key = "key3">value3</prop>
+			<prop key = "key4">value4</prop>
+		</props>
+		
+	</property>
+	</bean>
+	
+	<!-- Injection for Singleton -->
+	<bean id= "ms" class = "com.mercury.beans.MySingle"  scope = "prototype" 
+		factory-method = "getInstance"/>
+	<!-- 
+		<bean id= "ms" class = "com.mercury.beans.MySingle"/>
+ 	-->
+ 	
+ 	<!-- Injection for LazyBean -->
+ 	<bean id = "lazyBean" class="com.mercury.beans.LazyBean" lazy-init="true"/>
+	
+</beans>
